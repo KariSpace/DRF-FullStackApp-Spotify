@@ -2,20 +2,20 @@
 
 Simple app based on DRF + React and Integrated with expernal API
 
+To run:
+- Backend: 
+`pip install -r requirements.txt`          
+`python manage.py runserver`
+<br>
+- Frontend: 
+`npm run dev`
+
+____________
 Ready: 
 - Django App, 
 - Models, 
 - Basic vievs, 
 - Simple react app integrated with DRF
-
-To run:
-- Backend: 
-pip install -r requirements.txt           
-python manage.py runserver 
-
-- Frontend: 
-npm run dev  
-
 
 Features for future:
 - User authentification + Google Oauth
