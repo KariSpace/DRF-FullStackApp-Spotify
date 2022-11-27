@@ -10,8 +10,14 @@ import FormControl from "@mui/material/FormControl";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useNavigate } from "react-router-dom";
 
-export default class CreateRoomPage extends Component {
+
+function withParams(Component) {
+  return props => <Component {...props} navigate={useNavigate()} />;
+}
+
+class CreateRoomPage extends React.Component  {
   defaultVotes = 2;
 
   constructor(props) {
@@ -27,7 +33,7 @@ export default class CreateRoomPage extends Component {
 
   handleVotesChange(e){
     this.setState({
-      votesToSkip: typeof e.target.value == 'number'? e.target.value : 2
+      votesToSkip: e.target.value.match(/^[0-9]+$/) != null ? e.target.value : 2
     })
   }
 
@@ -50,7 +56,7 @@ export default class CreateRoomPage extends Component {
     };
     fetch('/api/create-room', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => this.props.navigate('/room/'+ data.code));
   }
 
   render() {
@@ -103,3 +109,5 @@ export default class CreateRoomPage extends Component {
   }
 }
 
+
+export default withParams(CreateRoomPage);
