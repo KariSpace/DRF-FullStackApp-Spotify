@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Select from 'react-select'
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from '@mui/material/Stack';
@@ -12,6 +13,15 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
 
+const options = [
+  { value: '', label: 'No genre' },
+  { value: 'rock', label: 'Rock' },
+  { value: 'pop', label: 'Pop' },
+  { value: 'jazz', label: 'Jazz' },
+  { value: 'vanilla', label: 'Vanilla' },  
+  { value: 'classic', label: 'Classic' },
+  { value: 'folk', label: 'Folk' }
+]
 
 function withParams(Component) {
   return props => <Component {...props} navigate={useNavigate()} />;
@@ -24,16 +34,23 @@ class CreateRoomPage extends React.Component  {
     super(props);
     this.state = {
       guestCanPause: true,
-      votesToSkip: this.defaultVotes
+      votesToSkip: this.defaultVotes,
+      genre: '',
     }
     this.handleVotesChange = this.handleVotesChange.bind(this);
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
     this.handleRoomCreation = this.handleRoomCreation.bind(this);
+    this.handleGenreChange = this.handleGenreChange.bind(this);
   }
 
   handleVotesChange(e){
     this.setState({
       votesToSkip: e.target.value.match(/^[0-9]+$/) != null ? e.target.value : this.defaultVotes
+    })
+  }
+  handleGenreChange(e){
+    this.setState({
+      genre: e.value
     })
   }
 
@@ -50,8 +67,9 @@ class CreateRoomPage extends React.Component  {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        guest_can_pause : "True", 
+        guest_can_pause : this.state.guestCanPause, 
         votes_to_skip : this.state.votesToSkip, 
+        genre : this.state.genre, 
       })
     };
     fetch('/api/create-room', requestOptions)
@@ -64,11 +82,10 @@ class CreateRoomPage extends React.Component  {
       <Grid container spacing={2}>
         <Grid item xs={12} align="center">
           <Typography  component={'span'}  variant="h4">
-         
             Create a room
-
           </Typography>
         </Grid>
+
         <Grid item xs={12} align="center">
           <FormControl component="fieldset">
             <FormHelperText>
@@ -86,6 +103,7 @@ class CreateRoomPage extends React.Component  {
             </RadioGroup>
           </FormControl>
         </Grid>
+
         <Grid item xs={12} align="center">
           <FormControl>
             <TextField required type ="number" 
@@ -97,6 +115,16 @@ class CreateRoomPage extends React.Component  {
             </FormHelperText>
           </FormControl>
         </Grid>
+
+        <Grid item xs={12} align="center">
+          <FormControl>
+          <Select options={options}  defaultValue={options[0]} onChange={this.handleGenreChange}/>
+            <FormHelperText>
+              <div>Genre of your Room</div>
+            </FormHelperText>
+          </FormControl>
+        </Grid>
+
         <Grid item xs={12} align="center">
           <Button color="secondary" className="main_button" variant="contained" onClick={this.handleRoomCreation}>Create a room</Button>
         </Grid>
