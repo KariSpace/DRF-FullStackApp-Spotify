@@ -3,11 +3,11 @@
 Simple app based on DRF + React and Integrated with expernal API
 
 To run:
-- Backend: 
+- Backend: <br>
 `pip install -r requirements.txt`          
 `python manage.py runserver`
 <br>
-- Frontend: 
+- Frontend: <br>
 `npm run dev`
 
 ____________
@@ -16,6 +16,7 @@ Ready:
 - Models, 
 - Basic vievs, 
 - Simple react app integrated with DRF
+- Backend and Frontend integration
 
 Features for future:
 - User authentification + Google Oauth

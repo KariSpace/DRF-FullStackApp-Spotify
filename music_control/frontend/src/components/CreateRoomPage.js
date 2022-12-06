@@ -33,7 +33,7 @@ class CreateRoomPage extends React.Component  {
 
   handleVotesChange(e){
     this.setState({
-      votesToSkip: e.target.value.match(/^[0-9]+$/) != null ? e.target.value : 2
+      votesToSkip: e.target.value.match(/^[0-9]+$/) != null ? e.target.value : this.defaultVotes
     })
   }
 
